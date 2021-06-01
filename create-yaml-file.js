@@ -33,17 +33,8 @@ program
     const dataSourcesPath = path.join(__dirname, 'mustache', 'templates', subgraph, 'create-yaml.js');
     let dataSourcesData;
 
-    if (subgraph === 'exchanger') {
-      const ratesDataSourcesPath = path.join(__dirname, 'mustache', 'templates', 'rates', 'create-yaml.js');
-      const ratesDataSourcesData = require(ratesDataSourcesPath);
-      const exchangerDataSourcesData = require(dataSourcesPath);
-      dataSourcesData = [
-        ...exchangerDataSourcesData.createYaml(env, universalTestBlock),
-        ...ratesDataSourcesData.createYaml(env, universalTestBlock, subgraph),
-      ];
-    } else {
-      dataSourcesData = require(dataSourcesPath).createYaml(env, universalTestBlock);
-    }
+    dataSourcesData = require(dataSourcesPath).createYaml(env, universalTestBlock);
+    
     const indexData = require(baseIndexPath);
     const specificIndexData = require(specificIndexPath);
     indexData.yaml[0] = { ...indexData.yaml[0], ...specificIndexData };

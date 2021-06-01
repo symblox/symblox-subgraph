@@ -1,14 +1,10 @@
-const createStartBlock = (blocks, env, universalTestBlock, useExchangerBlocks = false) => {
+const createStartBlock = (blocks, env, universalTestBlock) => {
   if (env === 'test') {
     return universalTestBlock != null && universalTestBlock != 'null'
       ? universalTestBlock
-      : useExchangerBlocks && blocks.exchanger
-      ? blocks.exchanger.test
-        ? blocks.exchanger.test
-        : blocks.exchanger.prod
-      : blocks.test || blocks.prod;
+      : blocks.test;
   } else if (env === 'prod') {
-    return useExchangerBlocks && blocks.exchanger && blocks.exchanger.prod ? blocks.exchanger.prod : blocks.prod;
+    return blocks.prod;
   } else {
     throw new Error('Invalid env for creating a yaml file');
   }

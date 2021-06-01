@@ -1,0 +1,29 @@
+specVersion: 0.0.2
+description: Symblox Voting
+repository: https://github.com/symblox/symblox-subgraph
+schema:
+  file: ./symblox-voting.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Governor
+    network: velas
+    source:
+      address: '0x3d235F8Dc14d41237b8F3Aa8a205F7ABBBEe0c6F'
+      abi: Governor
+      startBlock: 244246
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ../src/governor-mapping.ts
+      entities:
+        - ProposalCreated
+        - VoteCast
+      abis:
+        - name: Governor
+          file: ../abis/Governor.json
+      eventHandlers:
+        - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
+          handler: handleProposalCreated
+        - event: VoteCast(address,uint256,bool,uint256)
+          handler: handleVoteCast
